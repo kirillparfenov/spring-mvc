@@ -35,13 +35,12 @@ public class HelloController {
         cars.add(new Car("Вольво", "Ржавый", 1996));
         cars.add(new Car("Жигуль", "Прозрачный", 1945));
 
-        if (count <= cars.size()) {
+        if (count <= cars.size() && count > -1) {
             ArrayList<Car> countedCars = cars.stream()
                     .limit(count)
                     .collect(Collectors.toCollection(ArrayList::new));
             model.addAttribute("cars", countedCars);
-        }
-        else {
+        } else {
             model.addAttribute("cars", cars);
         }
         return "cars";
