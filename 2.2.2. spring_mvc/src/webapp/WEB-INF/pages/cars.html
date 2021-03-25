@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <title>Машины</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <td>Номер</td>
+        <td>Серия машины</td>
+        <td>Цвет машины</td>
+        <td>Год машины</td>
+    </tr>
+    <tr th:each="car, state : ${cars}" align="center">
+        <td th:utext="${state.count}"/>
+        <td th:utext="${car.getSeries()}"/>
+        <td th:utext="${car.getColor()}"/>
+        <td th:utext="${car.getYear()}"/>
+    </tr>
+</table>
+
+<br>
+
+<h3>GET-запрос на получение машин:</h3>
+<p><a href="cars?count=2">/cars?count=2</a></p>
+<p><a href="cars?count=3">/cars?count=3</a></p>
+<p><a href="cars?count=5">/cars?count=5</a></p>
+<p><a href="cars?count=8">/cars?count=8</a></p>
+</body>
+</html>

@@ -4,20 +4,46 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import web.model.Car;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HelloController {
 
-	@GetMapping(value = "/")
-	public String printWelcome(ModelMap model) {
-		List<String> messages = new ArrayList<>();
-		messages.add("Hello!");
-		messages.add("I'm Spring MVC application");
-		messages.add("5.2.0 version by sep'19 ");
-		model.addAttribute("messages", messages);
-		return "index";
-	}
+    @GetMapping(value = "/")
+    public String printWelcome(ModelMap model) {
+        List<String> messages = new ArrayList<>();
+        messages.add("Hello!");
+        messages.add("I'm Spring MVC application");
+        messages.add("5.2.0 version by sep'19 ");
+        model.addAttribute("messages", messages);
+        return "index";
+    }
+
+    @GetMapping(value = "/cars")
+    public String printCars(@RequestParam(value = "count", required = false, defaultValue = "0") int count,
+                            ModelMap model) {
+        List<Car> cars = new ArrayList<>();
+        cars.add(new Car("Рено", "Желтый", 2011));
+        cars.add(new Car("Фольксваген", "Белый", 2015));
+        cars.add(new Car("Мерседес", "Черный", 2018));
+        cars.add(new Car("Вольво", "Ржавый", 1996));
+        cars.add(new Car("Жигуль", "Прозрачный", 1945));
+
+        if (count <= cars.size()) {
+            ArrayList<Car> countedCars = cars.stream()
+                    .limit(count)
+                    .collect(Collectors.toCollection(ArrayList::new));
+            model.addAttribute("cars", countedCars);
+        }
+        else {
+            model.addAttribute("cars", cars);
+        }
+        return "cars";
+    }
 }
